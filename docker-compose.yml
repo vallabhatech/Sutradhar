@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sutradhar-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sutradhar
+      POSTGRES_PASSWORD: sutradhar_password
+      POSTGRES_DB: sutradhar
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sutradhar-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sutradhar -d sutradhar"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sutradhar-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://sutradhar:sutradhar_password@postgres:5432/sutradhar
+      SECRET_KEY: your-secret-key-change-in-production
+      APP_ENV: development
+      API_PORT: 8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - sutradhar-network
+    volumes:
+      - ./backend:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sutradhar-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - sutradhar-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes:
+  postgres_data:
+
+networks:
+  sutradhar-network:
+    driver: bridge

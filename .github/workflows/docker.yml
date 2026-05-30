@@ -1,0 +1,28 @@
+name: Docker
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build backend image
+        run: |
+          docker build -t sutradhar-backend:latest ./backend
+      
+      - name: Build frontend image
+        run: |
+          docker build -t sutradhar-frontend:latest ./frontend
+      
+      - name: Test docker-compose
+        run: |
+          docker-compose build
