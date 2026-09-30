@@ -1,5 +1,8 @@
 name: CI
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ main, develop ]
@@ -90,9 +93,14 @@ jobs:
       - name: Install dependencies
         run: |
           cd frontend
-          npm ci
+          npm install
       
       - name: Run ESLint
         run: |
           cd frontend
           npm run lint
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
