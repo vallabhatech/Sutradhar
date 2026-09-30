@@ -310,36 +310,29 @@ Test framework to be added in future iterations.
 
 ## 🗺️ Roadmap
 
-**Phase 1: Foundation (Current)**
+### Phase 1 — Foundation
 - [x] Project structure and development environment
-- [x] Backend API with FastAPI
-- [x] Frontend with Next.js
+- [x] FastAPI backend
+- [x] Next.js frontend
 - [x] PostgreSQL database setup
 - [x] Docker containerization
+- [x] JWT authentication and RBAC
+- [x] Audit logging
+- [x] Alembic migration support
 
-**Phase 2: Core Features**
+### Phase 2 — Core Intelligence
 - [ ] Bank statement upload and parsing
 - [ ] OCR integration
 - [ ] Transaction normalization
-- [ ] Basic fraud detection rules
-- [ ] Database migrations with Alembic
+- [ ] Rule-based fraud detection
+- [ ] Case management and investigation workflows
 
-**Phase 3: Advanced Intelligence**
-- [ ] Graph database integration (Neo4j)
-- [ ] Fund flow tracing
-- [ ] AI-powered analysis
+### Phase 3 — Advanced Intelligence
+- [ ] Graph-based fund-flow analysis
+- [ ] AI-assisted transaction investigation
 - [ ] Risk scoring
 - [ ] Evidence-ready reporting
-
-**Phase 2: Core Features**
-- [x] Authentication and authorization
-- [x] User management with RBAC
-- [x] Audit logging system
-- [ ] Bank statement upload and parsing
-- [ ] OCR integration
-- [ ] Transaction normalization
-- [ ] Basic fraud detection rules
-- [ ] Database migrations with Alembic
+- [ ] Scalable asynchronous processing
 
 ---
 
@@ -370,7 +363,7 @@ Contributions are welcome! Please follow these guidelines:
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for the full text.
 
 ---
 
