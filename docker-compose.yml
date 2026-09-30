@@ -1,14 +1,12 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16-alpine
     container_name: sutradhar-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: sutradhar
-      POSTGRES_PASSWORD: sutradhar_password
-      POSTGRES_DB: sutradhar
+      POSTGRES_USER: ${POSTGRES_USER:-sutradhar}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-sutradhar}
     ports:
       - "5432:5432"
     volumes:
@@ -16,7 +14,7 @@ services:
     networks:
       - sutradhar-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U sutradhar -d sutradhar"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -30,8 +28,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql+asyncpg://sutradhar:sutradhar_password@postgres:5432/sutradhar
-      SECRET_KEY: your-secret-key-change-in-production
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-sutradhar}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-sutradhar}
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
       APP_ENV: development
       API_PORT: 8000
     depends_on:
