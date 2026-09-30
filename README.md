@@ -148,7 +148,14 @@ git clone https://github.com/vallabhatech/sutradhar.git
 cd sutradhar
 ```
 
-2. **Run the setup script:**
+2. **Create your local environment file:**
+```bash
+cp .env.example .env
+```
+
+> On Windows PowerShell, use `Copy-Item .env.example .env`. Set a strong `POSTGRES_PASSWORD` and `SECRET_KEY` before using the stack beyond local development.
+
+3. **Run the setup script:**
 
 **Linux/Mac:**
 ```bash
@@ -161,7 +168,7 @@ chmod +x scripts/setup.sh
 .\scripts\setup.ps1
 ```
 
-3. **Access the application:**
+4. **Access the application:**
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
 - API Documentation: http://localhost:8000/docs
